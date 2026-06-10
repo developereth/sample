@@ -227,7 +227,7 @@
         }
         .section__desc { color: #AAA; max-width: 500px; margin: 0 auto; }
 
-        /* ============ COMBO CARDS ============ */
+        /* ============ COMBO CARDS (CLICKABLE) ============ */
         .combo-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -241,6 +241,7 @@
             border: 1px solid #2A2A2A;
             transition: var(--transition);
             position: relative;
+            cursor: pointer;
         }
         .combo-card:hover {
             border-color: var(--red);
@@ -299,7 +300,7 @@
         }
         .combo-card__price small { font-size: 0.85rem; font-weight: 400; color: #888; }
 
-        /* ============ MENU GRID ============ */
+        /* ============ MENU ITEMS (CLICKABLE) ============ */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -314,6 +315,7 @@
             align-items: center;
             transition: var(--transition);
             border: 1px solid #2A2A2A;
+            cursor: pointer;
         }
         .menu-item:hover {
             border-color: var(--red);
@@ -359,6 +361,108 @@
             color: white;
             font-weight: 800;
             text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        /* ============ MODAL (POPUP) ============ */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal__content {
+            background: #1E1E1E;
+            max-width: 500px;
+            width: 90%;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            animation: modalFadeIn 0.3s ease;
+            border: 1px solid var(--red);
+        }
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .modal__image {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+        .modal__body {
+            padding: 28px;
+            text-align: center;
+        }
+        .modal__title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--yellow);
+            margin-bottom: 12px;
+        }
+        .modal__ingredients {
+            background: #2A2A2A;
+            padding: 16px;
+            border-radius: var(--radius);
+            margin: 16px 0;
+            text-align: left;
+        }
+        .modal__ingredients h4 {
+            color: var(--red);
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        .modal__ingredients ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .modal__ingredients li {
+            color: #CCC;
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal__ingredients li i {
+            color: var(--yellow);
+            font-size: 0.8rem;
+        }
+        .modal__price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--yellow);
+            margin: 16px 0;
+        }
+        .close-modal {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 8px;
+            width: 100%;
+        }
+        .close-modal:hover {
+            background: var(--red-dark);
+            transform: scale(1.02);
         }
 
         /* ============ CONTACT ============ */
@@ -436,17 +540,6 @@
             .menu-grid { grid-template-columns: 1fr; }
             .hero__title { font-size: 1.8rem; }
         }
-
-        @media print {
-            body { background: white; color: black; }
-            .section__title, .combo-card__title, .menu-item__name { color: black; }
-            .combo-card, .menu-item { background: white; border: 1px solid #ddd; box-shadow: none; }
-            .combo-card__price, .menu-item__price { color: #DC2626; }
-            .combo-card__items li { color: #555; }
-            .hero { background: none; padding: 30px; }
-            .hero__title { color: black; text-shadow: none; }
-            .hero__sub, .section__desc { color: #555; }
-        }
     </style>
 </head>
 <body>
@@ -494,8 +587,8 @@
                 <div class="section__line"></div>
             </div>
             <div class="combo-grid">
-                <!-- Tropical Delight with YOUR image -->
-                <div class="combo-card">
+                <!-- Tropical Delight -->
+                <div class="combo-card" data-name="Tropical Delight" data-price="499.99" data-image="https://raw.githubusercontent.com/developereth/sample/a80145f81cea3c9ad04384f628cf0702b0f9802e/images.jpeg" data-ingredients="Mango Smoothie, Fresh Pineapple Juice, Mixed Tropical Fruits, Honey, Ice">
                     <img src="https://raw.githubusercontent.com/developereth/sample/a80145f81cea3c9ad04384f628cf0702b0f9802e/images.jpeg" alt="Tropical Delight" class="combo-card__image">
                     <div class="combo-card__badge">BEST SELLER</div>
                     <div class="combo-card__body">
@@ -508,7 +601,8 @@
                         <div class="combo-card__price">499.99 <small>ETB</small></div>
                     </div>
                 </div>
-                <div class="combo-card">
+                <!-- Berry Blast -->
+                <div class="combo-card" data-name="Berry Blast" data-price="399.99" data-image="https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600&q=80" data-ingredients="Strawberry, Blueberry, Raspberry, Greek Yogurt, Honey, Ice">
                     <img src="https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600&q=80" alt="Berry Blast" class="combo-card__image">
                     <div class="combo-card__body">
                         <h3 class="combo-card__title">Berry Blast</h3>
@@ -520,7 +614,8 @@
                         <div class="combo-card__price">399.99 <small>ETB</small></div>
                     </div>
                 </div>
-                <div class="combo-card">
+                <!-- Green Energy -->
+                <div class="combo-card" data-name="Green Energy" data-price="449.99" data-image="https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=600&q=80" data-ingredients="Avocado, Spinach, Kale, Green Apple, Lemon, Ginger">
                     <img src="https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=600&q=80" alt="Green Energy" class="combo-card__image">
                     <div class="combo-card__badge combo-card__badge--new">NEW!</div>
                     <div class="combo-card__body">
@@ -544,22 +639,22 @@
                 <h3 class="category-banner__title">☀️ Breakfast Menu</h3>
             </div>
             <div class="menu-grid">
-                <div class="menu-item"><span class="menu-item__name">Everyday Special Omelet</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Special Chechebessa</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Chechebessa</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Egg Sandwich</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Scrambled Egg</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Oats With Milk</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Oats</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">French Omelet</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Special Fetira</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Firfir – With Butter</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Fule</span><span class="menu-item__price">400.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Chicken Tibs</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Special Firfir</span><span class="menu-item__price">500.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Chocolate</span><span class="menu-item__price">--</span></div>
-                <div class="menu-item"><span class="menu-item__name">Special Firfir (Chocolate)</span><span class="menu-item__price">500.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Fule (Chocolate)</span><span class="menu-item__price">400.00</span></div>
+                <div class="menu-item" data-name="Everyday Special Omelet" data-price="--" data-image="https://images.unsplash.com/photo-1510693206979-df09806cb5f5?w=600&q=80" data-ingredients="3 Eggs, Bell Peppers, Onions, Tomatoes, Cheese, Fresh Herbs"><span class="menu-item__name">Everyday Special Omelet</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Special Chechebessa" data-price="--" data-image="https://images.unsplash.com/photo-1627662056004-86d2d2b7bfa9?w=600&q=80" data-ingredients="Shredded Bread, Ethiopian Spiced Butter, Berbere"><span class="menu-item__name">Special Chechebessa</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Chechebessa" data-price="--" data-image="https://images.unsplash.com/photo-1627662056004-86d2d2b7bfa9?w=600&q=80" data-ingredients="Shredded Bread, Butter, Spices"><span class="menu-item__name">Chechebessa</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Egg Sandwich" data-price="--" data-image="https://images.unsplash.com/photo-1524350876685-274059332603?w=600&q=80" data-ingredients="Fresh Bread, Fried Egg, Lettuce, Tomato, Mayo"><span class="menu-item__name">Egg Sandwich</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Scrambled Egg" data-price="--" data-image="https://images.unsplash.com/photo-1510693206979-df09806cb5f5?w=600&q=80" data-ingredients="3 Eggs, Butter, Salt, Pepper, Chives"><span class="menu-item__name">Scrambled Egg</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Oats With Milk" data-price="--" data-image="https://images.unsplash.com/photo-1517677208171-0bc6585a2e4e?w=600&q=80" data-ingredients="Rolled Oats, Warm Milk, Honey, Cinnamon"><span class="menu-item__name">Oats With Milk</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Oats" data-price="--" data-image="https://images.unsplash.com/photo-1517677208171-0bc6585a2e4e?w=600&q=80" data-ingredients="Rolled Oats, Hot Water, Honey"><span class="menu-item__name">Oats</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="French Omelet" data-price="--" data-image="https://images.unsplash.com/photo-1510693206979-df09806cb5f5?w=600&q=80" data-ingredients="3 Eggs, Butter, Cheese, Fresh Herbs"><span class="menu-item__name">French Omelet</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Special Fetira" data-price="--" data-image="https://images.unsplash.com/photo-1586444248902-2f5b5a5c2f4b?w=600&q=80" data-ingredients="Layered Ethiopian Pancake, Honey, Butter"><span class="menu-item__name">Special Fetira</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Firfir – With Butter" data-price="--" data-image="https://images.unsplash.com/photo-1627662056004-86d2d2b7bfa9?w=600&q=80" data-ingredients="Shredded Bread, Spiced Butter"><span class="menu-item__name">Firfir – With Butter</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Fule" data-price="400.00" data-image="https://images.unsplash.com/photo-1546069901-d5bfec2a5a5f?w=600&q=80" data-ingredients="Fava Beans, Garlic, Onion, Olive Oil, Lemon"><span class="menu-item__name">Fule</span><span class="menu-item__price">400.00</span></div>
+                <div class="menu-item" data-name="Chicken Tibs" data-price="--" data-image="https://images.unsplash.com/photo-1604909052743-94e838986d24?w=600&q=80" data-ingredients="Chicken, Onion, Tomato, Green Chili, Ethiopian Spices"><span class="menu-item__name">Chicken Tibs</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Special Firfir" data-price="500.00" data-image="https://images.unsplash.com/photo-1627662056004-86d2d2b7bfa9?w=600&q=80" data-ingredients="Premium Shredded Bread, Special Sauce, Spiced Butter"><span class="menu-item__name">Special Firfir</span><span class="menu-item__price">500.00</span></div>
+                <div class="menu-item" data-name="Chocolate" data-price="--" data-image="https://images.unsplash.com/photo-1546069901-d5bfec2a5a5f?w=600&q=80" data-ingredients="Hot Chocolate, Milk, Whipped Cream"><span class="menu-item__name">Chocolate</span><span class="menu-item__price">--</span></div>
+                <div class="menu-item" data-name="Special Firfir (Chocolate)" data-price="500.00" data-image="https://images.unsplash.com/photo-1627662056004-86d2d2b7bfa9?w=600&q=80" data-ingredients="Shredded Bread, Chocolate Sauce, Spiced Butter"><span class="menu-item__name">Special Firfir (Chocolate)</span><span class="menu-item__price">500.00</span></div>
+                <div class="menu-item" data-name="Fule (Chocolate)" data-price="400.00" data-image="https://images.unsplash.com/photo-1546069901-d5bfec2a5a5f?w=600&q=80" data-ingredients="Fava Beans, Chocolate Infusion, Spices"><span class="menu-item__name">Fule (Chocolate)</span><span class="menu-item__price">400.00</span></div>
             </div>
         </div>
     </section>
@@ -571,12 +666,12 @@
                 <h3 class="category-banner__title">🥤 Smoothies — 252 Br</h3>
             </div>
             <div class="menu-grid">
-                <div class="menu-item"><span class="menu-item__name">Tropical Fruit Smoothie</span><span class="menu-item__price">252.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Strawberry Smoothie</span><span class="menu-item__price">252.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Banana Smoothie</span><span class="menu-item__price">252.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Mango Smoothie</span><span class="menu-item__price">252.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Avocado Smoothie</span><span class="menu-item__price">252.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Mango, Orange & Pineapple</span><span class="menu-item__price">252.00</span></div>
+                <div class="menu-item" data-name="Tropical Fruit Smoothie" data-price="252.00" data-image="https://images.unsplash.com/photo-1623065422902-30a2d299e4cd?w=600&q=80" data-ingredients="Mango, Pineapple, Banana, Orange Juice, Ice"><span class="menu-item__name">Tropical Fruit Smoothie</span><span class="menu-item__price">252.00</span></div>
+                <div class="menu-item" data-name="Strawberry Smoothie" data-price="252.00" data-image="https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600&q=80" data-ingredients="Fresh Strawberries, Yogurt, Honey, Ice"><span class="menu-item__name">Strawberry Smoothie</span><span class="menu-item__price">252.00</span></div>
+                <div class="menu-item" data-name="Banana Smoothie" data-price="252.00" data-image="https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=600&q=80" data-ingredients="Ripe Bananas, Milk, Honey, Cinnamon"><span class="menu-item__name">Banana Smoothie</span><span class="menu-item__price">252.00</span></div>
+                <div class="menu-item" data-name="Mango Smoothie" data-price="252.00" data-image="https://images.unsplash.com/photo-1623065422902-30a2d299e4cd?w=600&q=80" data-ingredients="Fresh Mango, Yogurt, Orange Juice, Ice"><span class="menu-item__name">Mango Smoothie</span><span class="menu-item__price">252.00</span></div>
+                <div class="menu-item" data-name="Avocado Smoothie" data-price="252.00" data-image="https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=600&q=80" data-ingredients="Avocado, Milk, Honey, Dates"><span class="menu-item__name">Avocado Smoothie</span><span class="menu-item__price">252.00</span></div>
+                <div class="menu-item" data-name="Mango, Orange & Pineapple" data-price="252.00" data-image="https://images.unsplash.com/photo-1623065422902-30a2d299e4cd?w=600&q=80" data-ingredients="Mango, Orange, Pineapple, Lime, Ice"><span class="menu-item__name">Mango, Orange & Pineapple</span><span class="menu-item__price">252.00</span></div>
             </div>
         </div>
     </section>
@@ -588,13 +683,13 @@
                 <h3 class="category-banner__title">🧃 Fresh Juices — 200 Br</h3>
             </div>
             <div class="menu-grid">
-                <div class="menu-item"><span class="menu-item__name">Tropical Fruit Juice</span><span class="menu-item__price">200.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Strawberry Juice</span><span class="menu-item__price">200.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Papaya Juice</span><span class="menu-item__price">200.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Watermelon Ginger Juice</span><span class="menu-item__price">200.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Lemon Juice</span><span class="menu-item__price">200.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Pineapple Juice</span><span class="menu-item__price">200.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Avocado Juice</span><span class="menu-item__price">200.00</span></div>
+                <div class="menu-item" data-name="Tropical Fruit Juice" data-price="200.00" data-image="https://images.unsplash.com/photo-1623065422902-30a2d299e4cd?w=600&q=80" data-ingredients="Mango, Pineapple, Orange, Passion Fruit"><span class="menu-item__name">Tropical Fruit Juice</span><span class="menu-item__price">200.00</span></div>
+                <div class="menu-item" data-name="Strawberry Juice" data-price="200.00" data-image="https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600&q=80" data-ingredients="Fresh Strawberries, Mint, Lime"><span class="menu-item__name">Strawberry Juice</span><span class="menu-item__price">200.00</span></div>
+                <div class="menu-item" data-name="Papaya Juice" data-price="200.00" data-image="https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=600&q=80" data-ingredients="Fresh Papaya, Lime, Honey"><span class="menu-item__name">Papaya Juice</span><span class="menu-item__price">200.00</span></div>
+                <div class="menu-item" data-name="Watermelon Ginger Juice" data-price="200.00" data-image="https://images.unsplash.com/photo-1623065422902-30a2d299e4cd?w=600&q=80" data-ingredients="Watermelon, Fresh Ginger, Lime"><span class="menu-item__name">Watermelon Ginger Juice</span><span class="menu-item__price">200.00</span></div>
+                <div class="menu-item" data-name="Lemon Juice" data-price="200.00" data-image="https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=600&q=80" data-ingredients="Fresh Lemons, Mint, Honey, Water"><span class="menu-item__name">Lemon Juice</span><span class="menu-item__price">200.00</span></div>
+                <div class="menu-item" data-name="Pineapple Juice" data-price="200.00" data-image="https://images.unsplash.com/photo-1623065422902-30a2d299e4cd?w=600&q=80" data-ingredients="Fresh Pineapple, Mint"><span class="menu-item__name">Pineapple Juice</span><span class="menu-item__price">200.00</span></div>
+                <div class="menu-item" data-name="Avocado Juice" data-price="200.00" data-image="https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=600&q=80" data-ingredients="Avocado, Milk, Honey, Vanilla"><span class="menu-item__name">Avocado Juice</span><span class="menu-item__price">200.00</span></div>
             </div>
         </div>
     </section>
@@ -606,19 +701,35 @@
                 <h3 class="category-banner__title">🍿 Extras & Snacks</h3>
             </div>
             <div class="menu-grid">
-                <div class="menu-item"><span class="menu-item__name">French Fries</span><span class="menu-item__price">400.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Extra Items</span><span class="menu-item__price">100.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">5 pcs Fried Wings</span><span class="menu-item__price">749.99</span></div>
-                <div class="menu-item"><span class="menu-item__name">Fried Chicken Nuggets</span><span class="menu-item__price">719.99</span></div>
-                <div class="menu-item"><span class="menu-item__name">3 pcs Drumsticks</span><span class="menu-item__price">819.99</span></div>
-                <div class="menu-item"><span class="menu-item__name">Veggie Patty</span><span class="menu-item__price">369.99</span></div>
-                <div class="menu-item"><span class="menu-item__name">Bottled Water</span><span class="menu-item__price">65.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Soft Drink (300ml)</span><span class="menu-item__price">95.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Soft Drink (500ml)</span><span class="menu-item__price">125.00</span></div>
-                <div class="menu-item"><span class="menu-item__name">Flavour Ambo</span><span class="menu-item__price">100.00</span></div>
+                <div class="menu-item" data-name="French Fries" data-price="400.00" data-image="https://images.unsplash.com/photo-1585109649139-366815a0d713?w=600&q=80" data-ingredients="Fresh Potatoes, Sea Salt, Herbs"><span class="menu-item__name">French Fries</span><span class="menu-item__price">400.00</span></div>
+                <div class="menu-item" data-name="Extra Items" data-price="100.00" data-image="https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=600&q=80" data-ingredients="Cheese, Bacon, Extra Sauce"><span class="menu-item__name">Extra Items</span><span class="menu-item__price">100.00</span></div>
+                <div class="menu-item" data-name="5 pcs Fried Wings" data-price="749.99" data-image="https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80" data-ingredients="Chicken Wings, Secret Spice Blend, House Sauce"><span class="menu-item__name">5 pcs Fried Wings</span><span class="menu-item__price">749.99</span></div>
+                <div class="menu-item" data-name="Fried Chicken Nuggets" data-price="719.99" data-image="https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80" data-ingredients="Chicken Breast, Breadcrumbs, Spices"><span class="menu-item__name">Fried Chicken Nuggets</span><span class="menu-item__price">719.99</span></div>
+                <div class="menu-item" data-name="3 pcs Drumsticks" data-price="819.99" data-image="https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80" data-ingredients="Chicken Drumsticks, Marinade, BBQ Sauce"><span class="menu-item__name">3 pcs Drumsticks</span><span class="menu-item__price">819.99</span></div>
+                <div class="menu-item" data-name="Veggie Patty" data-price="369.99" data-image="https://images.unsplash.com/photo-1585109649139-366815a0d713?w=600&q=80" data-ingredients="Vegetable Patty, Lettuce, Tomato, Sauce"><span class="menu-item__name">Veggie Patty</span><span class="menu-item__price">369.99</span></div>
+                <div class="menu-item" data-name="Bottled Water" data-price="65.00" data-image="https://images.unsplash.com/photo-1616118132534-381f8985f5c3?w=600&q=80" data-ingredients="Pure Spring Water"><span class="menu-item__name">Bottled Water</span><span class="menu-item__price">65.00</span></div>
+                <div class="menu-item" data-name="Soft Drink (300ml)" data-price="95.00" data-image="https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=600&q=80" data-ingredients="Carbonated Soft Drink"><span class="menu-item__name">Soft Drink (300ml)</span><span class="menu-item__price">95.00</span></div>
+                <div class="menu-item" data-name="Soft Drink (500ml)" data-price="125.00" data-image="https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=600&q=80" data-ingredients="Carbonated Soft Drink"><span class="menu-item__name">Soft Drink (500ml)</span><span class="menu-item__price">125.00</span></div>
+                <div class="menu-item" data-name="Flavour Ambo" data-price="100.00" data-image="https://images.unsplash.com/photo-1616118132534-381f8985f5c3?w=600&q=80" data-ingredients="Mineral Water, Natural Flavor"><span class="menu-item__name">Flavour Ambo</span><span class="menu-item__price">100.00</span></div>
             </div>
         </div>
     </section>
+
+    <!-- ============ MODAL (POPUP) ============ -->
+    <div id="itemModal" class="modal">
+        <div class="modal__content">
+            <img id="modalImage" class="modal__image" src="" alt="">
+            <div class="modal__body">
+                <h3 id="modalTitle" class="modal__title"></h3>
+                <div class="modal__ingredients">
+                    <h4><i class="fas fa-leaf"></i> Ingredients</h4>
+                    <ul id="modalIngredients"></ul>
+                </div>
+                <div class="modal__price" id="modalPrice"></div>
+                <button class="close-modal" id="closeModalBtn">Close</button>
+            </div>
+        </div>
+    </div>
 
     <!-- ============ CONTACT ============ -->
     <div class="contact-bar">
@@ -641,12 +752,83 @@
             <p>&copy; 2026 Sample Juice House. All rights reserved. | Fresh & Natural 🥤</p>
             <p class="footer__credit">
                 Designed & Developed by 
-                <a href="" target="_blank" rel="noopener">
-                    <i class="fas fa-bolt"></i> Addis <i class="fas fa-bolt"></i>
+                <a href="https://addispower.pages.dev" target="_blank" rel="noopener">
+                    <i class="fas fa-bolt"></i> AddisPower <i class="fas fa-bolt"></i>
                 </a>
             </p>
         </div>
     </footer>
 
+    <script>
+        // ============ MODAL FUNCTIONALITY ============
+        const modal = document.getElementById('itemModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalIngredients = document.getElementById('modalIngredients');
+        const modalPrice = document.getElementById('modalPrice');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        // Function to show modal
+        function showModal(name, price, imageSrc, ingredients) {
+            modalTitle.textContent = name;
+            modalImage.src = imageSrc;
+            modalPrice.textContent = price === '--' ? 'Price unavailable' : `ETB ${price}`;
+            
+            // Split ingredients string into list items
+            const ingredientsList = ingredients.split(',').map(ing => ing.trim());
+            modalIngredients.innerHTML = '';
+            ingredientsList.forEach(ing => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-check-circle"></i> ${ing}`;
+                modalIngredients.appendChild(li);
+            });
+            
+            modal.classList.add('active');
+        }
+
+        // Close modal function
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        // Add click event to all combo cards
+        document.querySelectorAll('.combo-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                const name = this.dataset.name;
+                const price = this.dataset.price;
+                const imageSrc = this.dataset.image;
+                const ingredients = this.dataset.ingredients;
+                showModal(name, price, imageSrc, ingredients);
+            });
+        });
+
+        // Add click event to all menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const name = this.dataset.name;
+                const price = this.dataset.price;
+                const imageSrc = this.dataset.image;
+                const ingredients = this.dataset.ingredients;
+                showModal(name, price, imageSrc, ingredients);
+            });
+        });
+
+        // Close modal when clicking the close button
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside the modal content
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
